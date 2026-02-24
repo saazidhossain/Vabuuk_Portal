@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VABUUK | একাডেমি - The University of Silence</title>
+    <meta name="description" content="VABUUK Academy — A 4-week curriculum to reclaim your mind. Diagnose, deconstruct, build, and flow.">
+
+    <!-- Core Engine -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@300;400;500;600;700&family=Outfit:wght@200;300;400;500;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        vabuuk: {
+                            void: '#0F172A',
+                            void_deep: '#020617',
+                            paper: '#F2F0E9',
+                            paper_dim: '#E5E2D6',
+                            saffron: '#D97706',
+                            saffron_glow: '#F59E0B',
+                            stone: '#57534E',
+                            ink: '#1E293B',
+                            gold: '#C5A059'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        serif: ['Cinzel', 'serif'],
+                        bengali: ['Noto Serif Bengali', 'serif'],
+                        mono: ['Space Mono', 'monospace'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'progress': 'progress 1s ease-out forwards',
+                        'fade-up': 'fadeUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
+                        'fade-in': 'fadeIn 0.4s ease forwards',
+                        'slide-up': 'slideUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
+                        'dust': 'dust 20s linear infinite',
+                        'shimmer': 'shimmer 3s linear infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-5px)' },
+                        },
+                        progress: {
+                            '0%': { width: '0%' },
+                            '100%': { width: 'var(--target-width)' },
+                        },
+                        fadeUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(60px) scale(0.97)' },
+                            '100%': { opacity: '1', transform: 'translateY(0) scale(1)' },
+                        },
+                        dust: {
+                            '0%': { transform: 'translateY(0) translateX(0)', opacity: '0' },
+                            '10%': { opacity: '1' },
+                            '90%': { opacity: '1' },
+                            '100%': { transform: 'translateY(-100vh) translateX(30px)', opacity: '0' },
+                        },
+                        shimmer: {
+                            '0%': { backgroundPosition: '-200% 0' },
+                            '100%': { backgroundPosition: '200% 0' },
+                        }
+                    },
+                    backgroundImage: {
+                        'grain': "url('data:image/svg+xml,%3Csvg viewBox=\"0 0 256 256\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cfilter id=\"n\"%3E%3CfeTurbulence type=\"fractalNoise\" baseFrequency=\"0.7\" numOctaves=\"4\" stitchTiles=\"stitch\"/%3E%3C/filter%3E%3Crect width=\"100%25\" height=\"100%25\" filter=\"url(%23n)\" opacity=\"0.04\"/%3E%3C/svg%3E')",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: 'Outfit', sans-serif; overflow-x: hidden; }
+        .font-bengali { font-family: 'Noto Serif Bengali', serif; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #D97706; }
+
+        /* Cinematic Glass */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+        }
+        .glass-panel-hover:hover {
+            border-color: rgba(217, 119, 6, 0.25);
+            box-shadow: 0 8px 40px rgba(217, 119, 6, 0.08), 0 0 0 1px rgba(217, 119, 6, 0.1);
+        }
+
+        .light-glass {
+            background: rgba(242, 240, 233, 0.88);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+        }
+        .light-glass-hover:hover {
+            border-color: rgba(217, 119, 6, 0.3);
+            box-shadow: 0 8px 40px rgba(217, 119, 6, 0.06);
+        }
+
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #D97706, #F59E0B, #D97706);
+            z-index: 9999;
+            transition: width 0.1s linear;
+        }
+
+        /* Timeline line */
+        .timeline-line {
+            background: linear-gradient(to bottom, #D97706 0%, rgba(217, 119, 6, 0.1) 100%);
+        }
+
+        /* Text gradient */
+        .text-gradient-saffron {
+            background: linear-gradient(135deg, #F59E0B, #D97706, #92400E, #D97706, #F59E0B);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 4s linear infinite;
+        }
+
+        /* Timer ring animation */
+        .timer-ring {
+            transform: rotate(-90deg);
+        }
+        .timer-ring circle {
+            transition: stroke-dashoffset 1s linear;
+        }
+
+        /* Selection */
+        ::selection {
+            background: #D97706;
+            color: white;
+        }
+
+        /* Focus visible */
+        :focus-visible {
+            outline: 2px solid #D97706;
+            outline-offset: 2px;
+        }
+
+        /* Mobile sidebar toggle */
+        @media (max-width: 767px) {
+            .sidebar-collapsed {
+                transform: translateX(-100%);
+            }
+            .sidebar-expanded {
+                transform: translateX(0);
+            }
+        }
+
+        /* Completion celebration */
+        @keyframes celebrate {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .celebrate {
+            animation: celebrate 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        /* Textarea focus glow */
+        textarea:focus {
+            box-shadow: 0 0 0 2px rgba(217, 119, 6, 0.15), 0 0 20px rgba(217, 119, 6, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-vabuuk-void text-vabuuk-paper antialiased transition-colors duration-700">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef, useCallback, useMemo } = React;
+
+        // ============================================================
+        // 1. SYLLABUS DATA
+        // ============================================================
+
+        const SYLLABUS = [
+            {
+                id: 1,
+                week: "WEEK 1",
+                title: { en: "The Noise", bn: "কোলাহল" },
+                theme: { en: "Diagnosis & Detox", bn: "নির্ণয় ও বিষমুক্তি" },
+                desc: {
+                    en: "Identifying the invisible chains of algorithmic addiction. Before you can build, you must see the prison.",
+                    bn: "অ্যালগরিদমিক আসক্তির অদৃশ্য শিকল চিহ্নিত করা। নির্মাণের আগে, কারাগারটি দেখতে হবে।"
+                },
+                icon: "scan-eye",
+                lectures: [
+                    {
+                        code: "1.1",
+                        title: { en: "The Dopamine Trap: Why you scroll.", bn: "ডোপামিন ফাঁদ: কেন আপনি স্ক্রল করেন।" },
+                        duration: "12 min"
+                    },
+                    {
+                        code: "1.2",
+                        title: { en: "Cognitive Audit: Measuring your 'Brain Rot'.", bn: "জ্ঞানীয় নিরীক্ষা: আপনার 'ব্রেইন রট' পরিমাপ।" },
+                        duration: "18 min"
+                    }
+                ],
+                exercise: {
+                    type: "audit",
+                    title: { en: "The Dopamine Audit", bn: "ডোপামিন নিরীক্ষা" },
+                    question: {
+                        en: "List 3 apps that drain you, but give nothing back. Be honest — the first step to freedom is seeing the chains.",
+                        bn: "৩টি অ্যাপের তালিকা করুন যা আপনাকে শুষে নেয়, কিন্তু কিছুই ফেরত দেয় না।"
+                    },
+                    placeholder: { en: "1. Instagram — 2 hours daily, zero value...", bn: "১. ইনস্টাগ্রাম — প্রতিদিন ২ ঘণ্টা, শূন্য মূল্য..." }
+                }
+            },
+            {
+                id: 2,
+                week: "WEEK 2",
+                title: { en: "The Illusion", bn: "বিভ্রম" },
+                theme: { en: "Deconstruction", bn: "বিনির্মাণ" },
+                desc: {
+                    en: "Breaking down the false narratives of 'Success' and 'Hustle'. What if everything you were taught about winning was wrong?",
+                    bn: "'সাফল্য' এবং 'হাসলের' মিথ্যা আখ্যান ভেঙে ফেলা। জেতা সম্পর্কে যা শেখানো হয়েছে তা যদি ভুল হয়?"
+                },
+                icon: "eye-off",
+                lectures: [
+                    {
+                        code: "2.1",
+                        title: { en: "The Myth of More: Why happiness is subtraction.", bn: "বেশির মিথ: কেন সুখ হলো বিয়োগ।" },
+                        duration: "15 min"
+                    },
+                    {
+                        code: "2.2",
+                        title: { en: "The Steelman Argument: Empathy as a weapon.", bn: "স্টিলম্যান আর্গুমেন্ট: অস্ত্র হিসেবে সহানুভূতি।" },
+                        duration: "20 min"
+                    }
+                ],
+                exercise: {
+                    type: "steelman",
+                    title: { en: "Steelman Generator", bn: "স্টিলম্যান জেনারেটর" },
+                    question: {
+                        en: "Write the strongest argument FOR something you hate. This is not about agreeing — it's about understanding.",
+                        bn: "আপনি যা ঘৃণা করেন তার পক্ষে সবচেয়ে শক্তিশালী যুক্তি লিখুন। এটি সম্মত হওয়া নয় — এটি বোঝা।"
+                    },
+                    placeholder: { en: "I disagree with _____, but the strongest case for it is...", bn: "আমি _____-এর সাথে একমত নই, কিন্তু এর পক্ষে সবচেয়ে শক্তিশালী যুক্তি হলো..." }
+                }
+            },
+            {
+                id: 3,
+                week: "WEEK 3",
+                title: { en: "The Bridge", bn: "সেতু" },
+                theme: { en: "Technical Friction", bn: "প্রযুক্তিগত ঘর্ষণ" },
+                desc: {
+                    en: "Building the physical and digital walls to protect focus. Turning intention into architecture.",
+                    bn: "মনোযোগ রক্ষার জন্য ভৌত ও ডিজিটাল দেয়াল নির্মাণ। উদ্দেশ্যকে স্থাপত্যে পরিণত করা।"
+                },
+                icon: "shield",
+                lectures: [
+                    {
+                        code: "3.1",
+                        title: { en: "Friction Design: Making bad habits hard.", bn: "ঘর্ষণ নকশা: খারাপ অভ্যাসকে কঠিন করা।" },
+                        duration: "14 min"
+                    },
+                    {
+                        code: "3.2",
+                        title: { en: "The Grayscale Protocol: Killing the color triggers.", bn: "গ্রেস্কেল প্রোটোকল: রঙের ট্রিগার ধ্বংস।" },
+                        duration: "10 min"
+                    }
+                ],
+                exercise: {
+                    type: "friction",
+                    title: { en: "Friction Plan", bn: "ঘর্ষণ পরিকল্পনা" },
+                    question: {
+                        en: "What is one physical barrier you will build today? Think environment design, not willpower.",
+                        bn: "আজ আপনি কোন একটি ভৌত বাধা তৈরি করবেন? ইচ্ছাশক্তি নয়, পরিবেশ নকশা ভাবুন।"
+                    },
+                    placeholder: { en: "I will move my phone charger to another room so...", bn: "আমি আমার ফোনের চার্জার অন্য ঘরে রাখব যাতে..." }
+                }
+            },
+            {
+                id: 4,
+                week: "WEEK 4",
+                title: { en: "The Boatman", bn: "মাঝি" },
+                theme: { en: "Flow & Legacy", bn: "প্রবাহ ও উত্তরাধিকার" },
+                desc: {
+                    en: "Now that the noise is gone, what do we do with the silence? Learning to navigate the void with purpose.",
+                    bn: "এখন কোলাহল চলে গেছে, নীরবতা দিয়ে কী করব? শূন্যতাকে উদ্দেশ্যের সাথে চালনা শেখা।"
+                },
+                icon: "compass",
+                lectures: [
+                    {
+                        code: "4.1",
+                        title: { en: "Silence as a Skill: Navigating discomfort.", bn: "দক্ষতা হিসেবে নীরবতা: অস্বস্তি নেভিগেশন।" },
+                        duration: "16 min"
+                    },
+                    {
+                        code: "4.2",
+                        title: { en: "Deep Work Protocols: 4 hours > 8 hours.", bn: "ডিপ ওয়ার্ক প্রোটোকল: ৪ ঘণ্টা > ৮ ঘণ্টা।" },
+                        duration: "22 min"
+                    }
+                ],
+                exercise: {
+                    type: "timer",
+                    title: { en: "Monk Mode Timer", bn: "মঙ্ক মোড টাইমার" },
+                    question: {
+                        en: "Enter deep work state. 25 minutes of absolute focus. No phone. No tabs. Just you and the work.",
+                        bn: "গভীর কাজের অবস্থায় প্রবেশ করুন। ২৫ মিনিট পরম মনোযোগ। ফোন নেই। ট্যাব নেই। শুধু আপনি আর কাজ।"
+                    }
+                }
+            }
+        ];
+
+        const TRANSLATIONS = {
+            en: {
+                nav_home: "Sanctuary",
+                nav_manifesto: "Manifesto",
+                nav_academy: "Academy",
+                nav_library: "Library",
+                page_title: "The Academy",
+                page_sub: "University of Silence — A 4-week curriculum to reclaim your mind.",
+                sidebar_title: "ACADEMY",
+                sidebar_sub: "EST. 2026",
+                progress_label: "PROGRESS",
+                switch_lang: "Bengali",
+                breadcrumb_syllabus: "Syllabus",
+                lecture_label: "LECTURE",
+                exercise_label: "Active Recall Protocol",
+                exercise_placeholder: "Type your reflection here...",
+                btn_complete: "Complete Module",
+                btn_update: "Update Journal",
+                btn_next: "Next Module",
+                btn_start_timer: "Initiate Deep Work",
+                btn_stop_timer: "Abort Session",
+                btn_completed: "Module Completed",
+                all_complete_title: "Curriculum Complete",
+                all_complete_sub: "You have completed the University of Silence. The noise is gone. Now, build.",
+                fomo_action: "just completed",
+                fomo_names: ["Tanvir from Uttara", "Sarah from Gulshan", "Rifat from Sylhet", "Nadia from Chittagong", "Arafat from Mirpur", "Zara from Dhanmondi", "Karim from Banani"],
+                footer_motto: "Logic in Thought, Freedom in Belief.",
+                menu_toggle: "Curriculum",
+                locked_msg: "Complete the previous module to unlock",
+            },
+            bn: {
+                nav_home: "অভয়ারণ্য",
+                nav_manifesto: "ম্যানিফেস্টো",
+                nav_academy: "একাডেমি",
+                nav_library: "লাইব্রেরি",
+                page_title: "একাডেমি",
+                page_sub: "নীরবতার বিশ্ববিদ্যালয় — মন পুনরুদ্ধারের ৪-সপ্তাহের পাঠ্যক্রম।",
+                sidebar_title: "একাডেমি",
+                sidebar_sub: "প্রতিষ্ঠা ২০২৬",
+                progress_label: "অগ্রগতি",
+                switch_lang: "English",
+                breadcrumb_syllabus: "পাঠ্যসূচি",
+                lecture_label: "লেকচার",
+                exercise_label: "সক্রিয় স্মরণ প্রোটোকল",
+                exercise_placeholder: "আপনার প্রতিফলন লিখুন...",
+                btn_complete: "মডিউল সম্পন্ন করুন",
+                btn_update: "জার্নাল আপডেট",
+                btn_next: "পরবর্তী মডিউল",
+                btn_start_timer: "গভীর কাজ শুরু",
+                btn_stop_timer: "সেশন বাতিল",
+                btn_completed: "মডিউল সম্পন্ন",
+                all_complete_title: "পাঠ্যক্রম সম্পন্ন",
+                all_complete_sub: "আপনি নীরবতার বিশ্ববিদ্যালয় সম্পন্ন করেছেন। কোলাহল চলে গেছে। এখন, নির্মাণ করুন।",
+                fomo_action: "সম্পন্ন করেছেন",
+                fomo_names: ["তানভীর, উত্তরা", "সারাহ, গুলশান", "রিফাত, সিলেট", "নাদিয়া, চট্টগ্রাম", "আরাফাত, মিরপুর", "জারা, ধানমন্ডি", "করিম, বনানী"],
+                footer_motto: "ভাবনায় যুক্তি, বিশ্বাসে মুক্তি।",
+                menu_toggle: "পাঠ্যসূচি",
+                locked_msg: "আনলক করতে আগের মডিউল সম্পন্ন করুন",
+            }
+        };
+
+        // ============================================================
+        // 2. UTILITY COMPONENTS
+        // ============================================================
+
+        const Icon = ({ name, size = 20, className = '', fill = 'none', strokeWidth = 2 }) => {
+            const ref = useRef(null);
+            useEffect(() => {
+                if (ref.current && window.lucide) {
+                    ref.current.innerHTML = '';
+                    const iconNode = document.createElement('i');
+                    iconNode.setAttribute('data-lucide', name);
+                    iconNode.setAttribute('width', size);
+                    iconNode.setAttribute('height', size);
+                    if (fill !== 'none') iconNode.setAttribute('fill', fill);
+                    iconNode.setAttribute('stroke-width', strokeWidth);
+                    ref.current.appendChild(iconNode);
+                    window.lucide.createIcons({ nodes: [iconNode] });
+                }
+            }, [name, size, fill, strokeWidth]);
+            return <span ref={ref} className={`inline-flex items-center justify-center ${className}`} />;
+        };
+
+        const Reveal = ({ children, delay = 0, className = '' }) => {
+            const ref = useRef(null);
+            const [visible, setVisible] = useState(false);
+            useEffect(() => {
+                const observer = new IntersectionObserver(
+                    ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.disconnect(); } },
+                    { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+                );
+                if (ref.current) observer.observe(ref.current);
+                return () => observer.disconnect();
+            }, []);
+            return (
+                <div ref={ref} className={`transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} ${className}`} style={{ transitionDelay: `${delay}ms` }}>
+                    {children}
+                </div>
+            );
+        };
+
+        const ProgressBar = ({ progress, className = '' }) => (
+            <div className={`w-full h-1.5 bg-white/10 rounded-full overflow-hidden ${className}`}>
+                <div
+                    className="h-full bg-gradient-to-r from-vabuuk-saffron to-vabuuk-saffron_glow rounded-full transition-all duration-1000 ease-out"
+                    style={{ width: `${progress}%` }}
+                ></div>
+            </div>
+        );
+
+        // ============================================================
+        // 3. MAIN APPLICATION
+        // ============================================================
+
+        function App() {
+            // --- State ---
+            const [lang, setLang] = useState('en');
+            const [activeWeek, setActiveWeek] = useState(1);
+            const [completedWeeks, setCompletedWeeks] = useState([]);
+            const [exerciseInput, setExerciseInput] = useState('');
+            const [savedInputs, setSavedInputs] = useState({});
+            const [timerActive, setTimerActive] = useState(false);
+            const [timeLeft, setTimeLeft] = useState(25 * 60);
+            const [timeMode, setTimeMode] = useState('night');
+            const [fomo, setFomo] = useState(null);
+            const [sidebarOpen, setSidebarOpen] = useState(false);
+            const [justCompleted, setJustCompleted] = useState(null);
+            const mainRef = useRef(null);
+
+            const T = TRANSLATIONS[lang];
+
+            // --- Chrono-Logic ---
+            useEffect(() => {
+                const hour = new Date().getHours();
+                setTimeMode((hour >= 6 && hour < 18) ? 'day' : 'night');
+            }, []);
+
+            // --- Persistence ---
+            useEffect(() => {
+                try {
+                    const savedProgress = localStorage.getItem('vabuuk_academy_progress');
+                    const savedLang = localStorage.getItem('vabuuk_lang');
+                    const savedWeek = localStorage.getItem('vabuuk_academy_week');
+                    const savedJournal = localStorage.getItem('vabuuk_academy_journal');
+                    if (savedProgress) setCompletedWeeks(JSON.parse(savedProgress));
+                    if (savedLang) setLang(savedLang);
+                    if (savedWeek) setActiveWeek(parseInt(savedWeek));
+                    if (savedJournal) setSavedInputs(JSON.parse(savedJournal));
+                } catch (e) { /* silent fail */ }
+            }, []);
+
+            useEffect(() => {
+                localStorage.setItem('vabuuk_academy_progress', JSON.stringify(completedWeeks));
+            }, [completedWeeks]);
+
+            useEffect(() => {
+                localStorage.setItem('vabuuk_lang', lang);
+            }, [lang]);
+
+            useEffect(() => {
+                localStorage.setItem('vabuuk_academy_week', activeWeek.toString());
+            }, [activeWeek]);
+
+            useEffect(() => {
+                localStorage.setItem('vabuuk_academy_journal', JSON.stringify(savedInputs));
+            }, [savedInputs]);
+
+            // --- Timer Logic (Week 4) ---
+            useEffect(() => {
+                let interval = null;
+                if (timerActive && timeLeft > 0) {
+                    interval = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
+                } else if (timeLeft === 0 && timerActive) {
+                    setTimerActive(false);
+                    completeWeek(4);
+                }
+                return () => clearInterval(interval);
+            }, [timerActive, timeLeft]);
+
+            // --- FOMO Engine ---
+            useEffect(() => {
+                const showFomo = () => {
+                    const name = T.fomo_names[Math.floor(Math.random() * T.fomo_names.length)];
+                    const week = SYLLABUS[Math.floor(Math.random() * SYLLABUS.length)];
+                    setFomo({ name, week: week.title[lang] });
+                    setTimeout(() => setFomo(null), 5000);
+                };
+                const timeout = setTimeout(showFomo, 10000);
+                const interval = setInterval(showFomo, 22000);
+                return () => { clearTimeout(timeout); clearInterval(interval); };
+            }, [lang, T]);
+
+            // --- Load saved input when switching weeks ---
+            useEffect(() => {
+                setExerciseInput(savedInputs[activeWeek] || '');
+            }, [activeWeek]);
+
+            // --- Actions ---
+            const completeWeek = useCallback((id) => {
+                if (!completedWeeks.includes(id)) {
+                    setCompletedWeeks(prev => [...prev, id]);
+                    setJustCompleted(id);
+                    setTimeout(() => setJustCompleted(null), 2000);
+                }
+                if (exerciseInput.trim()) {
+                    setSavedInputs(prev => ({ ...prev, [id]: exerciseInput }));
+                }
+                setExerciseInput('');
+            }, [completedWeeks, exerciseInput]);
+
+            const goToNextWeek = useCallback(() => {
+                if (activeWeek < 4) {
+                    setActiveWeek(activeWeek + 1);
+                    if (mainRef.current) mainRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }, [activeWeek]);
+
+            const formatTime = (seconds) => {
+                const m = Math.floor(seconds / 60);
+                const s = seconds % 60;
+                return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+            };
+
+            const timerProgress = ((25 * 60 - timeLeft) / (25 * 60)) * 100;
+            const currentModule = SYLLABUS.find(w => w.id === activeWeek);
+            const progress = (completedWeeks.length / 4) * 100;
+            const allComplete = completedWeeks.length === 4;
+            const isNight = timeMode === 'night';
+
+            const isWeekLocked = (weekId) => {
+                if (weekId === 1) return false;
+                return !completedWeeks.includes(weekId - 1);
+            };
+
+            // Timer circle calculations
+            const timerRadius = 70;
+            const timerCircumference = 2 * Math.PI * timerRadius;
+            const timerOffset = timerCircumference - (timerProgress / 100) * timerCircumference;
+
+            return (
+                <div className={`min-h-screen ${isNight ? 'bg-vabuuk-void_deep text-vabuuk-paper' : 'bg-vabuuk-paper text-vabuuk-void'} font-sans transition-colors duration-700`}>
+
+                    {/* SCROLL PROGRESS */}
+                    <div className="scroll-progress" style={{ width: `${progress}%` }} />
+
+                    {/* AMBIENT PARTICLES */}
+                    <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+                        <div className={`absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full blur-[160px] ${isNight ? 'bg-vabuuk-saffron opacity-[0.04]' : 'bg-vabuuk-gold opacity-[0.1]'}`} />
+                        <div className={`absolute bottom-[-20%] right-[-10%] w-[60vw] h-[60vw] rounded-full blur-[120px] ${isNight ? 'bg-blue-900 opacity-[0.03]' : 'bg-blue-200 opacity-[0.06]'}`} />
+                        {isNight && (
+                            <>
+                                <div className="absolute w-[2px] h-[2px] bg-vabuuk-saffron rounded-full animate-dust opacity-40" style={{ top: '20%', left: '15%', animationDuration: '18s' }} />
+                                <div className="absolute w-[1.5px] h-[1.5px] bg-white rounded-full animate-dust opacity-25" style={{ top: '60%', left: '80%', animationDuration: '22s', animationDelay: '3s' }} />
+                                <div className="absolute w-[2px] h-[2px] bg-vabuuk-saffron rounded-full animate-dust opacity-30" style={{ top: '40%', left: '55%', animationDuration: '25s', animationDelay: '7s' }} />
+                            </>
+                        )}
+                        <div className="absolute inset-0 bg-grain opacity-30 mix-blend-overlay" />
+                    </div>
+
+                    {/* LAYOUT: SIDEBAR + MAIN */}
+                    <div className="flex min-h-screen relative z-10">
+
+                        {/* MOBILE OVERLAY */}
+                        {sidebarOpen && (
+                            <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-30 md:hidden" onClick={() => setSidebarOpen(false)} />
+                        )}
+
+                        {/* LEFT SIDEBAR */}
+                        <aside className={`fixed md:sticky top-0 left-0 z-40 w-80 h-screen flex flex-col transition-transform duration-300 md:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} ${isNight ? 'bg-vabuuk-void_deep border-r border-white/5' : 'bg-white border-r border-black/5'}`}>
+
+                            {/* Sidebar Header */}
+                            <div className={`p-6 border-b ${isNight ? 'border-white/5' : 'border-black/5'}`}>
+                                <div className="flex items-center justify-between mb-6">
+                                    <a href="/" className="flex items-center gap-3 group">
+                                        <div className="w-9 h-9 bg-vabuuk-saffron text-white flex items-center justify-center rounded-lg font-serif font-bold text-lg shadow-[0_0_12px_rgba(217,119,6,0.25)] group-hover:rotate-45 transition-transform duration-500">V</div>
+                                        <div>
+                                            <h1 className="font-serif font-bold tracking-wider text-sm">{T.sidebar_title}</h1>
+                                            <p className="text-[8px] opacity-40 tracking-[0.2em] font-mono">{T.sidebar_sub}</p>
+                                        </div>
+                                    </a>
+                                    <button onClick={() => setSidebarOpen(false)} className="md:hidden p-1 opacity-50 hover:opacity-100">
+                                        <Icon name="x" size={18} />
+                                    </button>
+                                </div>
+
+                                {/* Navigation */}
+                                <div className={`flex items-center gap-3 text-[10px] font-mono tracking-wide mb-6 pb-4 border-b ${isNight ? 'border-white/5' : 'border-black/5'}`}>
+                                    <a href="/" className="opacity-40 hover:opacity-100 hover:text-vabuuk-saffron transition">{T.nav_home}</a>
+                                    <span className="opacity-20">/</span>
+                                    <a href="/library" className="opacity-40 hover:opacity-100 hover:text-vabuuk-saffron transition">{T.nav_library}</a>
+                                    <span className="opacity-20">/</span>
+                                    <span className="text-vabuuk-saffron font-bold">{T.nav_academy}</span>
+                                </div>
+
+                                {/* Progress */}
+                                <div className="flex justify-between text-[10px] opacity-50 font-mono mb-2 tracking-widest">
+                                    <span>{T.progress_label}</span>
+                                    <span>{Math.round(progress)}%</span>
+                                </div>
+                                <ProgressBar progress={progress} />
+
+                                {allComplete && (
+                                    <div className="mt-3 flex items-center gap-2 text-[10px] text-green-400 font-mono">
+                                        <Icon name="trophy" size={12} />
+                                        <span className="tracking-wider">{T.all_complete_title}</span>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Timeline */}
+                            <div className="flex-1 overflow-y-auto p-6 space-y-1 relative">
+                                {/* Timeline Line */}
+                                <div className={`absolute left-[2.15rem] top-6 bottom-6 w-px ${isNight ? 'bg-white/[0.06]' : 'bg-black/[0.06]'}`}>
+                                    <div className="timeline-line w-full transition-all duration-1000 ease-out" style={{ height: `${progress}%` }} />
+                                </div>
+
+                                {SYLLABUS.map((week) => {
+                                    const locked = isWeekLocked(week.id);
+                                    const completed = completedWeeks.includes(week.id);
+                                    const active = activeWeek === week.id;
+                                    const isCelebrating = justCompleted === week.id;
+
+                                    return (
+                                        <div
+                                            key={week.id}
+                                            onClick={() => {
+                                                if (!locked) {
+                                                    setActiveWeek(week.id);
+                                                    setSidebarOpen(false);
+                                                    if (mainRef.current) mainRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+                                                }
+                                            }}
+                                            className={`relative z-10 pl-12 py-4 rounded-xl cursor-pointer group transition-all duration-300 ${locked ? 'opacity-30 cursor-not-allowed' : 'hover:bg-white/[0.03]'} ${active ? (isNight ? 'bg-white/[0.04]' : 'bg-black/[0.03]') : ''}`}
+                                        >
+                                            {/* Node */}
+                                            <div className={`absolute left-3 top-5 w-7 h-7 rounded-full border-2 flex items-center justify-center transition-all duration-500 ${isCelebrating ? 'celebrate' : ''} ${active ? 'border-vabuuk-saffron bg-vabuuk-saffron text-white shadow-[0_0_12px_rgba(217,119,6,0.4)]' : completed ? 'border-green-500 bg-green-500/20 text-green-400' : locked ? (isNight ? 'border-white/10 bg-vabuuk-void_deep' : 'border-black/10 bg-white') : (isNight ? 'border-white/20 bg-vabuuk-void_deep' : 'border-black/15 bg-white')}`}>
+                                                {completed && <Icon name="check" size={13} />}
+                                                {locked && <Icon name="lock" size={11} className={isNight ? 'text-white/30' : 'text-black/30'} />}
+                                                {active && !completed && <span className="w-2 h-2 bg-white rounded-full" />}
+                                            </div>
+
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <h3 className={`text-[10px] font-bold font-mono tracking-[0.15em] transition-colors ${active ? 'text-vabuuk-saffron' : isNight ? 'text-white/40 group-hover:text-white/70' : 'text-black/40 group-hover:text-black/70'}`}>
+                                                    {week.week}
+                                                </h3>
+                                                {completed && <span className="text-[8px] text-green-400 font-mono tracking-wider">DONE</span>}
+                                            </div>
+                                            <h2 className={`font-serif font-bold text-base transition-colors leading-tight ${lang === 'bn' ? 'font-bengali' : ''} ${active ? (isNight ? 'text-white' : 'text-vabuuk-void') : isNight ? 'text-white/60' : 'text-black/60'}`}>
+                                                {week.title[lang]}
+                                            </h2>
+                                            <p className={`text-[10px] font-mono mt-1 tracking-wide transition-colors ${active ? 'opacity-50' : 'opacity-30'}`}>
+                                                {week.theme[lang]}
+                                            </p>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                            {/* Sidebar Footer */}
+                            <div className={`p-6 border-t ${isNight ? 'border-white/5' : 'border-black/5'}`}>
+                                <button
+                                    onClick={() => setLang(lang === 'en' ? 'bn' : 'en')}
+                                    className={`w-full py-2.5 border rounded-lg text-[10px] font-bold uppercase tracking-[0.15em] transition-all duration-300 hover:bg-vabuuk-saffron hover:text-white hover:border-transparent ${isNight ? 'border-white/10 hover:shadow-[0_0_15px_rgba(217,119,6,0.2)]' : 'border-black/10'}`}
+                                >
+                                    Switch to {T.switch_lang}
+                                </button>
+                            </div>
+                        </aside>
+
+                        {/* MAIN CONTENT */}
+                        <main ref={mainRef} className="flex-1 min-h-screen overflow-y-auto relative">
+
+                            {/* Mobile Header */}
+                            <div className={`sticky top-0 z-20 md:hidden flex items-center justify-between px-4 py-3 backdrop-blur-xl border-b ${isNight ? 'bg-vabuuk-void_deep/80 border-white/5' : 'bg-vabuuk-paper/80 border-black/5'}`}>
+                                <button onClick={() => setSidebarOpen(true)} className="flex items-center gap-2 text-xs font-bold tracking-wider">
+                                    <Icon name="menu" size={18} />
+                                    <span className="font-mono text-[10px] uppercase tracking-[0.15em]">{T.menu_toggle}</span>
+                                </button>
+                                <div className="flex items-center gap-2">
+                                    <span className="text-[10px] font-mono opacity-40">{Math.round(progress)}%</span>
+                                    <div className="w-20">
+                                        <ProgressBar progress={progress} />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="max-w-4xl mx-auto px-5 md:px-10 lg:px-16 py-8 md:py-14 lg:py-20">
+
+                                {/* All Complete Banner */}
+                                {allComplete && (
+                                    <Reveal>
+                                        <div className={`mb-12 p-8 rounded-2xl border text-center ${isNight ? 'bg-green-500/5 border-green-500/20' : 'bg-green-50 border-green-200'}`}>
+                                            <div className="w-16 h-16 mx-auto mb-4 bg-green-500/10 rounded-full flex items-center justify-center">
+                                                <Icon name="trophy" size={32} className="text-green-400" />
+                                            </div>
+                                            <h2 className={`text-2xl font-serif font-bold mb-2 ${lang === 'bn' ? 'font-bengali' : ''}`}>{T.all_complete_title}</h2>
+                                            <p className={`opacity-60 text-sm ${lang === 'bn' ? 'font-bengali' : ''}`}>{T.all_complete_sub}</p>
+                                        </div>
+                                    </Reveal>
+                                )}
+
+                                {/* Breadcrumbs */}
+                                <Reveal>
+                                    <div className="flex items-center gap-2 text-[10px] font-mono opacity-30 mb-8 uppercase tracking-[0.15em]">
+                                        <span>{T.breadcrumb_syllabus}</span>
+                                        <Icon name="chevron-right" size={11} />
+                                        <span>{currentModule.week}</span>
+                                        <Icon name="chevron-right" size={11} />
+                                        <span className="text-vabuuk-saffron opacity-100">{currentModule.theme[lang]}</span>
+                                    </div>
+                                </Reveal>
+
+                                {/* Module Header */}
+                                <Reveal delay={100}>
+                                    <header className="mb-14">
+                                        <div className="flex items-center gap-3 mb-5">
+                                            <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${isNight ? 'bg-vabuuk-saffron/10 text-vabuuk-saffron' : 'bg-vabuuk-saffron/10 text-vabuuk-saffron'}`}>
+                                                <Icon name={currentModule.icon} size={24} />
+                                            </div>
+                                            <div>
+                                                <span className="text-[9px] font-mono font-bold tracking-[0.2em] text-vabuuk-saffron uppercase">{currentModule.week}</span>
+                                                {completedWeeks.includes(currentModule.id) && (
+                                                    <span className="ml-2 text-[8px] font-mono text-green-400 tracking-wider">COMPLETED</span>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <h1 className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-bold mb-6 leading-[1.1] ${lang === 'bn' ? 'font-bengali' : ''} text-gradient-saffron`}>
+                                            {currentModule.title[lang]}
+                                        </h1>
+                                        <p className={`text-lg md:text-xl font-light opacity-70 leading-relaxed border-l-[3px] border-vabuuk-saffron pl-6 max-w-2xl ${lang === 'bn' ? 'font-bengali' : ''}`}>
+                                            {currentModule.desc[lang]}
+                                        </p>
+                                    </header>
+                                </Reveal>
+
+                                {/* Lectures */}
+                                <Reveal delay={200}>
+                                    <div className="mb-14">
+                                        <h3 className="text-[10px] font-mono font-bold tracking-[0.2em] uppercase opacity-40 mb-5">
+                                            {T.lecture_label}S
+                                        </h3>
+                                        <div className="space-y-4">
+                                            {currentModule.lectures.map((lec, i) => (
+                                                <div key={i} className={`group p-5 md:p-6 rounded-xl flex items-center gap-5 transition-all duration-300 cursor-pointer ${isNight ? 'glass-panel glass-panel-hover' : 'light-glass light-glass-hover'}`}>
+                                                    <div className={`w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 ${isNight ? 'bg-white/5 text-vabuuk-saffron group-hover:bg-vabuuk-saffron group-hover:text-white' : 'bg-vabuuk-saffron/10 text-vabuuk-saffron group-hover:bg-vabuuk-saffron group-hover:text-white'}`}>
+                                                        <Icon name="play" size={22} fill="currentColor" />
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <h4 className={`font-bold text-base md:text-lg leading-snug ${lang === 'bn' ? 'font-bengali' : ''}`}>
+                                                            {lec.title[lang]}
+                                                        </h4>
+                                                        <div className="flex items-center gap-3 mt-1.5">
+                                                            <span className="text-[9px] font-mono opacity-40 tracking-wider uppercase flex items-center gap-1.5">
+                                                                <Icon name="clock" size={10} /> {lec.duration}
+                                                            </span>
+                                                            <span className={`text-[8px] font-mono px-2 py-0.5 rounded ${isNight ? 'bg-white/5' : 'bg-black/5'} opacity-40`}>
+                                                                {lec.code}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <Icon name="arrow-right" size={16} className="opacity-0 group-hover:opacity-50 transition-all duration-300 -translate-x-2 group-hover:translate-x-0 flex-shrink-0" />
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </Reveal>
+
+                                {/* Interactive Exercise */}
+                                <Reveal delay={300}>
+                                    <section className={`relative overflow-hidden rounded-2xl border ${isNight ? 'bg-gradient-to-br from-white/[0.04] to-transparent border-white/[0.08]' : 'bg-gradient-to-br from-vabuuk-saffron/5 to-transparent border-vabuuk-saffron/10'}`}>
+                                        {/* Background Decoration */}
+                                        <div className="absolute top-0 right-0 p-6 opacity-[0.04]">
+                                            <Icon name={currentModule.exercise.type === 'timer' ? 'hourglass' : 'pen-tool'} size={140} />
+                                        </div>
+
+                                        <div className="relative z-10 p-6 md:p-10">
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <div className="w-1.5 h-1.5 bg-vabuuk-saffron rounded-full animate-pulse" />
+                                                <h3 className="text-vabuuk-saffron font-bold uppercase tracking-[0.2em] text-[10px]">
+                                                    {T.exercise_label}
+                                                </h3>
+                                            </div>
+                                            <h2 className={`text-2xl md:text-3xl font-serif font-bold mb-4 ${lang === 'bn' ? 'font-bengali' : ''}`}>
+                                                {currentModule.exercise.title[lang]}
+                                            </h2>
+                                            <p className={`mb-8 opacity-70 leading-relaxed max-w-xl ${lang === 'bn' ? 'font-bengali' : ''}`}>
+                                                {currentModule.exercise.question[lang]}
+                                            </p>
+
+                                            {/* Widget: Timer or Text */}
+                                            {currentModule.exercise.type === 'timer' ? (
+                                                <div className="text-center py-6 md:py-10">
+                                                    {/* Timer Circle */}
+                                                    <div className="relative inline-flex items-center justify-center mb-8">
+                                                        <svg width="180" height="180" className="timer-ring">
+                                                            <circle cx="90" cy="90" r={timerRadius}
+                                                                fill="none"
+                                                                stroke={isNight ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}
+                                                                strokeWidth="4"
+                                                            />
+                                                            <circle cx="90" cy="90" r={timerRadius}
+                                                                fill="none"
+                                                                stroke={timerActive ? '#D97706' : 'rgba(217,119,6,0.3)'}
+                                                                strokeWidth="4"
+                                                                strokeLinecap="round"
+                                                                strokeDasharray={timerCircumference}
+                                                                strokeDashoffset={timerOffset}
+                                                            />
+                                                        </svg>
+                                                        <div className="absolute inset-0 flex flex-col items-center justify-center">
+                                                            <div className={`text-5xl font-mono font-bold tracking-tighter ${timerActive ? 'text-vabuuk-saffron' : ''}`}>
+                                                                {formatTime(timeLeft)}
+                                                            </div>
+                                                            <span className="text-[9px] font-mono opacity-30 mt-1 tracking-widest">
+                                                                {timerActive ? 'DEEP WORK' : 'READY'}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="flex flex-col items-center gap-4">
+                                                        <button
+                                                            onClick={() => {
+                                                                if (!timerActive && timeLeft === 0) setTimeLeft(25 * 60);
+                                                                setTimerActive(!timerActive);
+                                                            }}
+                                                            className={`px-10 py-3.5 rounded-full font-bold uppercase tracking-[0.15em] text-xs transition-all duration-300 ${timerActive
+                                                                ? 'bg-red-500/90 hover:bg-red-600 text-white shadow-[0_0_20px_rgba(239,68,68,0.3)]'
+                                                                : 'bg-vabuuk-saffron hover:bg-vabuuk-saffron_glow text-white shadow-[0_0_20px_rgba(217,119,6,0.3)] hover:shadow-[0_0_30px_rgba(217,119,6,0.4)]'
+                                                            }`}
+                                                        >
+                                                            {timerActive ? T.btn_stop_timer : T.btn_start_timer}
+                                                        </button>
+                                                        {!timerActive && timeLeft < 25 * 60 && timeLeft > 0 && (
+                                                            <button onClick={() => setTimeLeft(25 * 60)}
+                                                                className="text-[10px] font-mono opacity-40 hover:opacity-100 hover:text-vabuuk-saffron transition">
+                                                                Reset Timer
+                                                            </button>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div className="space-y-4">
+                                                    <textarea
+                                                        className={`w-full rounded-xl p-5 min-h-[160px] text-sm focus:outline-none transition-all duration-300 resize-none ${isNight
+                                                            ? 'bg-black/20 border border-white/10 text-white placeholder-white/20 focus:border-vabuuk-saffron/50'
+                                                            : 'bg-white/50 border border-black/10 text-vabuuk-void placeholder-black/20 focus:border-vabuuk-saffron/50'
+                                                        }`}
+                                                        placeholder={currentModule.exercise.placeholder?.[lang] || T.exercise_placeholder}
+                                                        value={exerciseInput}
+                                                        onChange={(e) => setExerciseInput(e.target.value)}
+                                                    />
+                                                    {exerciseInput.trim() && (
+                                                        <div className="text-right text-[10px] font-mono opacity-30">
+                                                            {exerciseInput.trim().split(/\s+/).length} words
+                                                        </div>
+                                                    )}
+                                                    <div className="flex flex-col sm:flex-row justify-between items-center gap-3 pt-2">
+                                                        {completedWeeks.includes(activeWeek) && activeWeek < 4 && (
+                                                            <button onClick={goToNextWeek}
+                                                                className={`flex items-center gap-2 text-xs font-mono opacity-50 hover:opacity-100 hover:text-vabuuk-saffron transition px-3 py-1.5 rounded-lg ${isNight ? 'hover:bg-white/5' : 'hover:bg-black/5'}`}>
+                                                                {T.btn_next} <Icon name="arrow-right" size={13} />
+                                                            </button>
+                                                        )}
+                                                        <div className="flex-1" />
+                                                        <button
+                                                            onClick={() => completeWeek(activeWeek)}
+                                                            disabled={!exerciseInput.trim() && !completedWeeks.includes(activeWeek)}
+                                                            className={`px-7 py-3 rounded-full font-bold uppercase tracking-[0.12em] text-[11px] flex items-center gap-2.5 transition-all duration-300 ${
+                                                                completedWeeks.includes(activeWeek)
+                                                                    ? 'bg-green-500/10 text-green-400 border border-green-500/20 hover:bg-green-500/20'
+                                                                    : !exerciseInput.trim()
+                                                                        ? (isNight ? 'bg-white/5 text-white/20 cursor-not-allowed' : 'bg-black/5 text-black/20 cursor-not-allowed')
+                                                                        : 'bg-vabuuk-saffron text-white shadow-[0_0_20px_rgba(217,119,6,0.3)] hover:shadow-[0_0_30px_rgba(217,119,6,0.4)] hover:scale-[1.02] active:scale-[0.98]'
+                                                            }`}
+                                                        >
+                                                            {completedWeeks.includes(activeWeek) ? (
+                                                                <><Icon name="check-circle" size={14} /> {exerciseInput.trim() ? T.btn_update : T.btn_completed}</>
+                                                            ) : (
+                                                                <><Icon name="arrow-right" size={14} /> {T.btn_complete}</>
+                                                            )}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </section>
+                                </Reveal>
+
+                                {/* Footer */}
+                                <footer className={`mt-20 pt-8 border-t text-center ${isNight ? 'border-white/5' : 'border-black/5'}`}>
+                                    <Reveal>
+                                        <a href="/" className="inline-block group">
+                                            <div className="w-10 h-10 bg-vabuuk-saffron mx-auto rounded-full flex items-center justify-center text-white font-serif font-bold text-xl mb-5 shadow-[0_0_15px_rgba(217,119,6,0.3)] group-hover:rotate-45 transition-transform duration-500">V</div>
+                                        </a>
+                                        <p className={`text-base font-serif italic opacity-50 mb-6 ${lang === 'bn' ? 'font-bengali' : ''}`}>
+                                            "{T.footer_motto}"
+                                        </p>
+                                        <div className="flex justify-center gap-5 opacity-25 mb-6">
+                                            {['youtube', 'facebook', 'instagram'].map(social => (
+                                                <span key={social} className="hover:text-vabuuk-saffron hover:opacity-100 cursor-pointer transition">
+                                                    <Icon name={social} size={18} />
+                                                </span>
+                                            ))}
+                                        </div>
+                                        <p className="text-[9px] font-mono uppercase tracking-[0.3em] opacity-15">&copy; 2026 VABUUK Academy. Dhaka.</p>
+                                    </Reveal>
+                                </footer>
+                            </div>
+                        </main>
+                    </div>
+
+                    {/* FOMO NOTIFICATION */}
+                    {fomo && (
+                        <div className="fixed bottom-5 left-5 z-50 animate-fade-up pointer-events-none">
+                            <div className={`px-4 py-3 rounded-xl flex items-center gap-3 shadow-2xl border backdrop-blur-xl ${isNight ? 'bg-vabuuk-void/90 border-white/[0.08]' : 'bg-white/90 border-black/[0.06]'}`}>
+                                <span className="relative flex h-2 w-2">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
+                                </span>
+                                <div className="text-[11px]">
+                                    <p className="opacity-50 font-mono">
+                                        <span className="text-vabuuk-saffron font-bold">{fomo.name}</span>
+                                    </p>
+                                    <p className={`font-bold font-serif ${lang === 'bn' ? 'font-bengali' : ''}`}>
+                                        {T.fomo_action} <span className="text-vabuuk-saffron">{fomo.week}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
