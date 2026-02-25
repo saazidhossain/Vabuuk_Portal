@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VABUUK | ইশতেহার — The Constitution</title>
+    <meta name="description" content="The VABUUK Manifesto — A declaration of intellectual sovereignty. Logic in Thought, Freedom in Belief.">
+
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@300;400;500;600;700&family=Outfit:wght@200;300;400;500;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        vabuuk: {
+                            void: '#0F172A', void_deep: '#020617',
+                            paper: '#F2F0E9', paper_dim: '#E5E2D6',
+                            saffron: '#D97706', saffron_glow: '#F59E0B',
+                            stone: '#57534E', ink: '#1E293B', gold: '#C5A059'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Outfit','sans-serif'], serif: ['Cinzel','serif'],
+                        bengali: ['Noto Serif Bengali','serif'], mono: ['Space Mono','monospace'],
+                    },
+                    animation: {
+                        'float':'float 6s ease-in-out infinite',
+                        'pulse-slow':'pulse 4s cubic-bezier(0.4,0,0.6,1) infinite',
+                        'fade-up':'fadeUp 0.7s cubic-bezier(0.2,0.8,0.2,1) forwards',
+                        'fade-in':'fadeIn 0.5s ease forwards',
+                        'slide-up':'slideUp 0.6s cubic-bezier(0.16,1,0.3,1) forwards',
+                        'shimmer':'shimmer 3s linear infinite',
+                        'breathe':'breathe 7s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float:{'0%,100%':{transform:'translateY(0)'},'50%':{transform:'translateY(-8px)'}},
+                        fadeUp:{'0%':{opacity:'0',transform:'translateY(30px)'},'100%':{opacity:'1',transform:'translateY(0)'}},
+                        fadeIn:{'0%':{opacity:'0'},'100%':{opacity:'1'}},
+                        slideUp:{'0%':{opacity:'0',transform:'translateY(60px) scale(0.97)'},'100%':{opacity:'1',transform:'translateY(0) scale(1)'}},
+                        shimmer:{'0%':{backgroundPosition:'-200% 0'},'100%':{backgroundPosition:'200% 0'}},
+                        breathe:{'0%,100%':{opacity:'0.4',transform:'scale(1)'},'50%':{opacity:'0.8',transform:'scale(1.06)'}},
+                    },
+                    backgroundImage: {
+                        'grain':"url('data:image/svg+xml,%3Csvg viewBox=\"0 0 256 256\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cfilter id=\"n\"%3E%3CfeTurbulence type=\"fractalNoise\" baseFrequency=\"0.7\" numOctaves=\"4\" stitchTiles=\"stitch\"/%3E%3C/filter%3E%3Crect width=\"100%25\" height=\"100%25\" filter=\"url(%23n)\" opacity=\"0.04\"/%3E%3C/svg%3E')",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        *{box-sizing:border-box;}
+        body{font-family:'Outfit',sans-serif;overflow-x:hidden;}
+        .font-bengali{font-family:'Noto Serif Bengali',serif;}
+        ::-webkit-scrollbar{width:5px;}
+        ::-webkit-scrollbar-track{background:#020617;}
+        ::-webkit-scrollbar-thumb{background:#334155;border-radius:3px;}
+        ::-webkit-scrollbar-thumb:hover{background:#D97706;}
+        .scroll-progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,#D97706,#F59E0B,#D97706);z-index:9999;transition:width 0.1s linear;}
+        .glass-panel{background:rgba(15,23,42,0.65);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.07);box-shadow:0 8px 32px rgba(0,0,0,0.12);}
+        .glass-panel-hover:hover{border-color:rgba(217,119,6,0.25);box-shadow:0 8px 40px rgba(217,119,6,0.08),0 0 0 1px rgba(217,119,6,0.1);}
+        .light-glass{background:rgba(242,240,233,0.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(0,0,0,0.06);box-shadow:0 4px 24px rgba(0,0,0,0.04);}
+        .light-glass-hover:hover{border-color:rgba(217,119,6,0.3);box-shadow:0 8px 40px rgba(217,119,6,0.06);}
+        .text-gradient-saffron{background:linear-gradient(135deg,#F59E0B,#D97706,#92400E,#D97706,#F59E0B);background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s linear infinite;}
+        .drop-cap::first-letter{font-family:'Cinzel',serif;font-size:4.5rem;font-weight:700;float:left;line-height:0.8;margin-right:0.12em;margin-top:0.05em;color:#D97706;}
+        .ink-line{height:1px;background:linear-gradient(to right,transparent,#D97706,transparent);transform:scaleX(0);transform-origin:center;transition:transform 1s cubic-bezier(0.2,0.8,0.2,1);}
+        .ink-line.revealed{transform:scaleX(1);}
+        .tenet-card{transition:all 0.5s cubic-bezier(0.2,0.8,0.2,1);}
+        .tenet-card:hover{transform:translateY(-4px);}
+        .tenet-card.active-tenet{border-color:rgba(217,119,6,0.4)!important;box-shadow:0 0 40px rgba(217,119,6,0.08),0 16px 48px rgba(0,0,0,0.2);}
+        .text-vertical{writing-mode:vertical-rl;text-orientation:mixed;}
+        .quote-marks{font-family:'Cinzel',serif;font-size:8rem;line-height:0;color:rgba(217,119,6,0.12);vertical-align:-0.4em;}
+        ::selection{background:#D97706;color:white;}
+        :focus-visible{outline:2px solid #D97706;outline-offset:2px;}
+    </style>
+</head>
+<body class="bg-vabuuk-void text-vabuuk-paper antialiased transition-colors duration-700">
+<div id="root"></div>
+
+<script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    // ── DATA ──────────────────────────────────────────────────────────────────
+
+    const MD = {
+        preamble: {
+            en: {
+                label: "PREAMBLE",
+                title: "We Are Not a Religion.\nWe Are Not an Ideology.",
+                subtitle: "We are a method.",
+                body: "In a world drowning in noise — algorithmic feeds, tribal certainties, and borrowed beliefs — VABUUK stands as a bridge. Not between left and right. Not between theist and atheist. But between the mind that questions and the heart that seeks. We do not offer answers. We offer better questions.",
+                pull: "\"The unexamined life is not worth living.\" We add: the unlived logic is not worth examining.",
+            },
+            bn: {
+                label: "প্রস্তাবনা",
+                title: "আমরা কোনো ধর্ম নই।\nআমরা কোনো মতবাদও নই।",
+                subtitle: "আমরা একটি পদ্ধতি।",
+                body: "এমন একটি পৃথিবীতে যেখানে কোলাহল ডুবিয়ে দিচ্ছে সবকিছু — অ্যালগরিদমের খোরাক, গোষ্ঠীগত নিশ্চিততা, ধার করা বিশ্বাস — VABUUK দাঁড়িয়ে আছে একটি সেতু হিসেবে। বাম ও ডানের মধ্যে নয়। আস্তিক ও নাস্তিকের মধ্যে নয়। বরং প্রশ্নকারী মন আর সন্ধানী হৃদয়ের মধ্যে। আমরা উত্তর দিই না। আমরা ভালো প্রশ্ন শেখাই।",
+                pull: "\"অপরীক্ষিত জীবন বাঁচার যোগ্য নয়।\" আমরা যোগ করি: অজীবন্ত যুক্তি পরীক্ষার যোগ্য নয়।",
+            }
+        },
+        tenets: [
+            {
+                id:"I", icon:"triangle", color:"blue",
+                en:{ title:"The Architect Within", sub:"Logic as liberation", body:"We believe empirical logic is not the enemy of faith — it is the skeleton on which meaningful faith must hang. We refuse fuzzy thinking. We demand evidence. We cite sources. But we know that data is not wisdom.", detail:"The Architect represents 70% of our method. Before we conclude, we build. We map the argument. We find the strongest form of every position — including the ones we despise. This is not weakness. This is intellectual courage.", quote:"We do not attack you. We attack the idea. 'বিষয় দা।'" },
+                bn:{ title:"ভেতরের স্থপতি", sub:"মুক্তি হিসেবে যুক্তি", body:"আমরা বিশ্বাস করি অভিজ্ঞতামূলক যুক্তি বিশ্বাসের শত্রু নয় — এটি সেই কঙ্কাল যার উপর অর্থবহ বিশ্বাস ঝুলে থাকতে হবে। আমরা অস্পষ্ট চিন্তা প্রত্যাখ্যান করি। আমরা প্রমাণ দাবি করি।", detail:"স্থপতি আমাদের পদ্ধতির ৭০% প্রতিনিধিত্ব করেন। সিদ্ধান্ত নেওয়ার আগে, আমরা নির্মাণ করি। আমরা যুক্তি ম্যাপ করি। আমরা প্রতিটি অবস্থানের সবচেয়ে শক্তিশালী রূপ খুঁজি।", quote:"আমরা আপনাকে আক্রমণ করি না। আমরা ধারণাকে আক্রমণ করি। 'বিষয় দা।'" }
+            },
+            {
+                id:"II", icon:"waves", color:"amber",
+                en:{ title:"The Boatman's Grace", sub:"Intuition as intelligence", body:"We believe the human experience cannot be fully reduced to data. There is a territory beyond proof — love, grief, wonder, the sublime — that demands a different kind of navigation. The Boatman does not argue. He listens.", detail:"The Boatman represents 20% of our method — but often the most important 20%. When logic exhausts itself, the Boatman picks up the oar. He does not deny the storm. He steers through it.", quote:"Some truths can only be felt before they can be known." },
+                bn:{ title:"মাঝির অনুগ্রহ", sub:"বুদ্ধি হিসেবে অন্তর্দৃষ্টি", body:"আমরা বিশ্বাস করি মানবিক অভিজ্ঞতাকে সম্পূর্ণ তথ্যে হ্রাস করা যায় না। প্রমাণের বাইরে একটি অঞ্চল আছে — ভালোবাসা, দুঃখ, বিস্ময় — যার জন্য ভিন্ন ধরনের নেভিগেশন প্রয়োজন।", detail:"মাঝি আমাদের পদ্ধতির ২০% প্রতিনিধিত্ব করেন — কিন্তু প্রায়ই সবচেয়ে গুরুত্বপূর্ণ ২০%। যখন যুক্তি ক্লান্ত হয়, মাঝি দাঁড় তুলে নেন।", quote:"কিছু সত্য জানার আগে অনুভব করতে হয়।" }
+            },
+            {
+                id:"III", icon:"link-2", color:"emerald",
+                en:{ title:"The Bridge Protocol", sub:"Synthesis as the goal", body:"VABUUK is not interested in winning arguments. We are interested in building understanding. The Bridge is the final output — the place where Architect and Boatman meet, where logic becomes actionable wisdom.", detail:"The Steelman Method is our weapon. Before we disagree, we must fully articulate the strongest version of what we oppose. The goal is not to defeat the other position — it is to transcend it.", quote:"The Bridge does not choose sides. It connects them." },
+                bn:{ title:"সেতু প্রোটোকল", sub:"সংশ্লেষণই লক্ষ্য", body:"VABUUK যুক্তিতে জেতায় আগ্রহী নয়। আমরা বোঝাপড়া তৈরিতে আগ্রহী। সেতু হলো চূড়ান্ত আউটপুট — যেখানে স্থপতি ও মাঝি মিলিত হন, যেখানে যুক্তি কার্যকর প্রজ্ঞা হয়।", detail:"স্টিলম্যান পদ্ধতি আমাদের সংশ্লেষণের অস্ত্র। বিরোধিতার আগে, বিরোধী অবস্থানের সবচেয়ে শক্তিশালী সংস্করণ বলতে হবে।", quote:"সেতু পক্ষ নেয় না। সে সংযোগ করে।" }
+            },
+            {
+                id:"IV", icon:"shield", color:"rose",
+                en:{ title:"The Bishoy Da Shield", sub:"Idea, not individual", body:"We never attack people. We attack ideas. This is not cowardice — it is the highest form of intellectual respect. When we disagree with you, we separate your identity from your argument.", detail:"Ad hominem is the refuge of the intellectually bankrupt. We refuse it absolutely. In every VABUUK dialogue: 'ভাই আমার, যুক্তিটা তো আকাশ থেকে পড়ল না!' — Let us trace this logic together.", quote:"The idea is the opponent. You are the ally we are trying to free." },
+                bn:{ title:"বিষয় দা ঢাল", sub:"ধারণা, ব্যক্তি নয়", body:"আমরা কখনো মানুষকে আক্রমণ করি না। আমরা ধারণাকে আক্রমণ করি। এটি কাপুরুষতা নয় — এটি বুদ্ধিবৃত্তিক সম্মানের সর্বোচ্চ রূপ।", detail:"বিশেষণ আক্রমণ বুদ্ধিবৃত্তিকভাবে দেউলিয়াদের আশ্রয়। প্রতিটি VABUUK সংলাপে: 'ভাই আমার, যুক্তিটা তো আকাশ থেকে পড়ল না!' — চলুন একসাথে এই যুক্তির পথ খুঁজি।", quote:"ধারণাটি প্রতিপক্ষ। আপনি সেই মিত্র যাকে আমরা মুক্ত করার চেষ্টা করছি।" }
+            },
+            {
+                id:"V", icon:"brain", color:"purple",
+                en:{ title:"Digital Sovereignty", sub:"Reclaiming the attention economy", body:"The modern mind is under siege. Algorithms are designed to capture attention at any cost. We believe attention is the last sovereign territory of the self — and we intend to defend it.", detail:"Digital Stoicism is not about deleting apps. It is about understanding the architecture of the compulsion and rebuilding your relationship with technology from a position of power, not addiction.", quote:"True freedom is not deleting the app. It is deleting the compulsion to open it." },
+                bn:{ title:"ডিজিটাল সার্বভৌমত্ব", sub:"মনোযোগ অর্থনীতি পুনরুদ্ধার", body:"আধুনিক মন অবরোধের মধ্যে। অ্যালগরিদম যেকোনো মূল্যে মনোযোগ ক্যাপচার করতে ডিজাইন করা হয়েছে। আমরা বিশ্বাস করি মনোযোগ আত্মার শেষ সার্বভৌম অঞ্চল।", detail:"ডিজিটাল স্টোইসিজম অ্যাপ মুছে ফেলার বিষয়ে নয়। এটি বাধ্যতার স্থাপত্য বোঝা এবং প্রযুক্তির সাথে আপনার সম্পর্ক শক্তির অবস্থান থেকে পুনর্নির্মাণের বিষয়ে।", quote:"সত্যিকারের স্বাধীনতা অ্যাপ মুছে ফেলা নয়। এটি খোলার তাগিদ মুছে ফেলা।" }
+            },
+            {
+                id:"VI", icon:"infinity", color:"gold",
+                en:{ title:"The Eternal Question", sub:"Wonder as a discipline", body:"We are not anti-faith. We are anti-unexamined faith. The most profound spiritual traditions — Sufi mysticism, Buddhist inquiry, Stoic contemplation — all question first, then believe. We continue that tradition.", detail:"From Rickshaw pullers to CEOs, the capacity for wonder and rigorous thought is universally human. The goal of VABUUK is not to make you an atheist or a theist. It is to make you a thinker.", quote:"ভাবনায় যুক্তি, বিশ্বাসে মুক্তি। Logic in Thought, Freedom in Belief." },
+                bn:{ title:"চিরন্তন প্রশ্ন", sub:"শৃঙ্খলা হিসেবে বিস্ময়", body:"আমরা বিশ্বাস-বিরোধী নই। আমরা অপরীক্ষিত বিশ্বাস-বিরোধী। মানব ইতিহাসের সবচেয়ে গভীর আধ্যাত্মিক ঐতিহ্যগুলি — সুফি রহস্যবাদ, বৌদ্ধ অনুসন্ধান — সবই প্রথমে প্রশ্ন করে, তারপর বিশ্বাস করে।", detail:"রিকশাচালক থেকে সিইও পর্যন্ত, বিস্ময়ের ক্ষমতা সর্বজনীনভাবে মানবিক। VABUUK-এর লক্ষ্য আপনাকে নাস্তিক বা আস্তিক করা নয়। এটি আপনাকে একজন চিন্তাবিদ করা।", quote:"ভাবনায় যুক্তি, বিশ্বাসে মুক্তি।" }
+            }
+        ],
+        declaration: {
+            en: {
+                title:"We Hereby Declare",
+                items:["That the right to question is sacred and inalienable.","That no idea — including ours — is beyond scrutiny.","That compassion and logic are not opposites, but partners.","That the examined life, however difficult, is the only life worth living.","That the Bengali mind — like every human mind — deserves intellectual sovereignty.","That we will never attack the person. Only the argument.","That this is a sanctuary, not a court. You are welcome here."],
+                closing:"Signed in thought, sealed in logic, delivered with love."
+            },
+            bn: {
+                title:"আমরা এতদ্বারা ঘোষণা করছি",
+                items:["যে প্রশ্ন করার অধিকার পবিত্র এবং অবিচ্ছেদ্য।","যে কোনো ধারণা — আমাদেরটি সহ — যাচাইয়ের বাইরে নয়।","যে সহানুভূতি এবং যুক্তি বিপরীত নয়, বরং সঙ্গী।","যে পরীক্ষিত জীবন, যতই কঠিন হোক, বাঁচার একমাত্র জীবন।","যে বাঙালি মন — প্রতিটি মানবিক মনের মতো — বুদ্ধিবৃত্তিক সার্বভৌমত্বের যোগ্য।","যে আমরা কখনো ব্যক্তিকে আক্রমণ করব না। শুধুমাত্র যুক্তিকে।","যে এটি একটি অভয়ারণ্য, আদালত নয়। আপনাকে এখানে স্বাগত।"],
+                closing:"চিন্তায় স্বাক্ষরিত, যুক্তিতে সিলমোহর করা, ভালোবাসায় পরিবেশিত।"
+            }
+        }
+    };
+
+    const T_DATA = {
+        en:{ nav_home:"Sanctuary", nav_academy:"Academy", nav_library:"Library", nav_manifesto:"Manifesto", badge_sub:"EST. 2026", reading_time:"8 min read", scroll_label:"SCROLL TO READ", section_tenets:"The Six Tenets", section_tenets_sub:"The intellectual pillars upon which VABUUK stands.", section_declaration:"The Declaration", tenet_expand:"Read more", tenet_collapse:"Collapse", cta_academy:"Enter the Academy", cta_library:"Browse Library", footer_motto:"Logic in Thought, Freedom in Belief.", sign_off:"— The Architect & The Boatman" },
+        bn:{ nav_home:"অভয়ারণ্য", nav_academy:"একাডেমি", nav_library:"লাইব্রেরি", nav_manifesto:"ইশতেহার", badge_sub:"প্রতিষ্ঠা ২০২৬", reading_time:"৮ মিনিট পড়া", scroll_label:"পড়তে স্ক্রোল করুন", section_tenets:"ছয়টি নীতি", section_tenets_sub:"বুদ্ধিবৃত্তিক স্তম্ভ যার উপর VABUUK দাঁড়িয়ে।", section_declaration:"ঘোষণাপত্র", tenet_expand:"আরও পড়ুন", tenet_collapse:"সংকুচিত", cta_academy:"একাডেমিতে প্রবেশ", cta_library:"লাইব্রেরি দেখুন", footer_motto:"ভাবনায় যুক্তি, বিশ্বাসে মুক্তি।", sign_off:"— স্থপতি ও মাঝি" }
+    };
+
+    const CLR = {
+        blue:   {ring:'border-blue-500/30',   dot:'bg-blue-500',   text:'text-blue-400',   bg:'bg-blue-500/10'},
+        amber:  {ring:'border-amber-500/30',  dot:'bg-amber-500',  text:'text-amber-400',  bg:'bg-amber-500/10'},
+        emerald:{ring:'border-emerald-500/30',dot:'bg-emerald-500',text:'text-emerald-400',bg:'bg-emerald-500/10'},
+        rose:   {ring:'border-rose-500/30',   dot:'bg-rose-500',   text:'text-rose-400',   bg:'bg-rose-500/10'},
+        purple: {ring:'border-purple-500/30', dot:'bg-purple-500', text:'text-purple-400', bg:'bg-purple-500/10'},
+        gold:   {ring:'border-vabuuk-saffron/30',dot:'bg-vabuuk-saffron',text:'text-vabuuk-saffron',bg:'bg-vabuuk-saffron/10'},
+    };
+
+    // ── COMPONENTS ────────────────────────────────────────────────────────────
+
+    const Icon = ({ name, size=20, className='', fill='none', strokeWidth=2 }) => {
+        const ref = useRef(null);
+        useEffect(() => {
+            if (ref.current && window.lucide) {
+                ref.current.innerHTML = '';
+                const n = document.createElement('i');
+                n.setAttribute('data-lucide', name);
+                n.setAttribute('width', size);
+                n.setAttribute('height', size);
+                if (fill !== 'none') n.setAttribute('fill', fill);
+                n.setAttribute('stroke-width', strokeWidth);
+                ref.current.appendChild(n);
+                window.lucide.createIcons({ nodes:[n] });
+            }
+        }, [name, size, fill, strokeWidth]);
+        return <span ref={ref} className={`inline-flex items-center justify-center ${className}`} />;
+    };
+
+    const Reveal = ({ children, delay=0, className='', direction='up' }) => {
+        const ref = useRef(null);
+        const [v, setV] = useState(false);
+        useEffect(() => {
+            const obs = new IntersectionObserver(([e]) => { if(e.isIntersecting){ setV(true); obs.disconnect(); } }, { threshold:0.08, rootMargin:'0px 0px -40px 0px' });
+            if (ref.current) obs.observe(ref.current);
+            return () => obs.disconnect();
+        }, []);
+        const xform = direction==='left'?'translate-x-[-30px]':direction==='right'?'translate-x-[30px]':'translate-y-10';
+        return (
+            <div ref={ref} className={`transition-all duration-700 ${v?'opacity-100 translate-y-0 translate-x-0':`opacity-0 ${xform}`} ${className}`} style={{transitionDelay:`${delay}ms`}}>
+                {children}
+            </div>
+        );
+    };
+
+    const InkLine = () => {
+        const ref = useRef(null);
+        const [r, setR] = useState(false);
+        useEffect(() => {
+            const obs = new IntersectionObserver(([e]) => { if(e.isIntersecting) setR(true); }, { threshold:0.5 });
+            if (ref.current) obs.observe(ref.current);
+            return () => obs.disconnect();
+        }, []);
+        return <div ref={ref} className={`ink-line my-2 ${r?'revealed':''}`} />;
+    };
+
+    // ── APP ───────────────────────────────────────────────────────────────────
+
+    function App() {
+        const [lang, setLang]           = useState('en');
+        const [scrollPct, setScrollPct] = useState(0);
+        const [isNight, setIsNight]     = useState(true);
+        const [scrolled, setScrolled]   = useState(false);
+        const [expanded, setExpanded]   = useState(null);
+        const [signCount, setSignCount] = useState(4871);
+        const [signed, setSigned]       = useState(false);
+        const [signName, setSignName]   = useState('');
+        const [toast, setToast]         = useState(false);
+
+        const T  = T_DATA[lang];
+        const P  = MD.preamble[lang];
+        const DC = MD.declaration[lang];
+
+        useEffect(() => {
+            const h = new Date().getHours();
+            setIsNight(h < 6 || h >= 18);
+            const onScroll = () => {
+                const el = document.documentElement;
+                setScrollPct((el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100);
+                setScrolled(window.scrollY > 80);
+            };
+            window.addEventListener('scroll', onScroll, { passive:true });
+            return () => window.removeEventListener('scroll', onScroll);
+        }, []);
+
+        useEffect(() => {
+            const s = localStorage.getItem('vabuuk_lang');
+            if (s) setLang(s);
+        }, []);
+        useEffect(() => { localStorage.setItem('vabuuk_lang', lang); }, [lang]);
+
+        const handleSign = () => {
+            if (!signName.trim()) return;
+            setSignCount(c => c+1); setSigned(true);
+        };
+
+        const handleShare = () => {
+            if (navigator.share) {
+                navigator.share({ title:'VABUUK Manifesto', url:window.location.href });
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                setToast(true); setTimeout(() => setToast(false), 2500);
+            }
+        };
+
+        const navBg = scrolled
+            ? `backdrop-blur-xl ${isNight ? 'bg-vabuuk-void/90 border-white/5' : 'bg-vabuuk-paper/90 border-black/5'}`
+            : 'bg-transparent border-transparent';
+
+        return (
+            <div className={`min-h-screen transition-colors duration-700 ${isNight ? 'bg-vabuuk-void text-vabuuk-paper' : 'bg-vabuuk-paper text-vabuuk-ink'}`}>
+
+                {/* SCROLL PROGRESS */}
+                <div className="scroll-progress" style={{width:`${scrollPct}%`}} />
+
+                {/* AMBIENT */}
+                <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+                    <div className={`absolute top-[-15%] right-[-10%] w-[55vw] h-[55vw] rounded-full blur-[120px] opacity-[0.07] animate-breathe ${isNight?'bg-vabuuk-saffron':'bg-vabuuk-gold'}`} />
+                    <div className={`absolute bottom-[-10%] left-[-15%] w-[50vw] h-[50vw] rounded-full blur-[100px] opacity-[0.05] ${isNight?'bg-blue-600':'bg-blue-200'}`} />
+                    <div className="absolute inset-0 bg-grain opacity-30 mix-blend-overlay" />
+                </div>
+
+                {/* ── NAV ── */}
+                <nav className={`fixed top-0 w-full z-50 px-4 md:px-8 py-4 flex justify-between items-center border-b transition-all duration-300 ${navBg}`}>
+                    <div className="flex items-center gap-4">
+                        <a href="/" className="flex items-center gap-3 group">
+                            <div className="w-9 h-9 bg-vabuuk-saffron text-white flex items-center justify-center rounded-lg font-serif font-bold text-lg shadow-[0_0_12px_rgba(217,119,6,0.25)] group-hover:rotate-45 transition-transform duration-500">V</div>
+                            <div className="hidden md:block">
+                                <h1 className={`font-serif font-bold text-lg tracking-wider uppercase leading-none ${isNight?'text-white':'text-vabuuk-void'}`}>VABUUK</h1>
+                                <p className="text-[8px] tracking-[0.3em] uppercase opacity-50 font-mono">{T.badge_sub}</p>
+                            </div>
+                        </a>
+                        <span className={`hidden md:block h-6 w-px ${isNight?'bg-white/10':'bg-black/10'}`} />
+                        <div className="hidden md:flex items-center gap-5 text-xs font-medium tracking-wide opacity-60">
+                            <a href="/"        className="hover:text-vabuuk-saffron hover:opacity-100 transition">{T.nav_home}</a>
+                            <a href="/academy" className="hover:text-vabuuk-saffron hover:opacity-100 transition">{T.nav_academy}</a>
+                            <a href="/library" className="hover:text-vabuuk-saffron hover:opacity-100 transition">{T.nav_library}</a>
+                            <span className="text-vabuuk-saffron opacity-100 font-bold">{T.nav_manifesto}</span>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <span className={`hidden md:flex items-center gap-1.5 text-[9px] font-mono uppercase tracking-[0.2em] opacity-40`}>
+                            <Icon name="clock" size={11} />{T.reading_time}
+                        </span>
+                        <button onClick={() => setLang(l => l==='en'?'bn':'en')}
+                            className={`w-9 h-9 rounded-full border flex items-center justify-center font-bold text-[10px] transition-all duration-500 hover:rotate-180 hover:border-vabuuk-saffron ${isNight?'border-white/15 opacity-60 hover:opacity-100':'border-black/15 opacity-60 hover:opacity-100'}`}>
+                            {lang==='en'?'বাং':'EN'}
+                        </button>
+                        <button onClick={() => setIsNight(n=>!n)}
+                            className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all duration-300 hover:border-vabuuk-saffron ${isNight?'border-white/15 opacity-60 hover:opacity-100':'border-black/15 opacity-60 hover:opacity-100'}`}>
+                            <Icon name={isNight?'sun':'moon'} size={15} />
+                        </button>
+                    </div>
+                </nav>
+
+                {/* ══ HERO ═══════════════════════════════════════════════════ */}
+                <header className="relative min-h-screen flex flex-col justify-center items-center text-center px-6 pt-20 z-10 overflow-hidden">
+                    {/* vertical label */}
+                    <div className="absolute left-6 top-1/2 -translate-y-1/2 hidden lg:flex items-center gap-3">
+                        <div className={`text-vertical text-[9px] font-mono tracking-[0.3em] opacity-20 uppercase`}>THE CONSTITUTION</div>
+                        <div className={`h-32 w-px ${isNight?'bg-white/10':'bg-black/10'}`} />
+                    </div>
+
+                    <Reveal>
+                        {/* badge */}
+                        <div className="flex justify-center mb-8">
+                            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border text-[9px] font-mono tracking-[0.25em] uppercase ${isNight?'border-white/10 bg-white/[0.03]':'border-black/10 bg-black/[0.03]'}`}>
+                                <span className="w-1.5 h-1.5 rounded-full bg-vabuuk-saffron animate-pulse-slow" />
+                                THE CONSTITUTION <span className="opacity-30">|</span> VBK-000
+                            </div>
+                        </div>
+
+                        {/* Title */}
+                        <h1 className={`text-5xl md:text-7xl lg:text-8xl xl:text-[7rem] font-serif font-bold leading-[1.0] mb-6 tracking-tight ${lang==='bn'?'font-bengali':''} text-gradient-saffron`}>
+                            {P.title.split('\n').map((line,i) => <span key={i} className="block">{line}</span>)}
+                        </h1>
+
+                        {/* subtitle */}
+                        <p className={`text-xl md:text-2xl font-serif italic mb-8 opacity-60 ${lang==='bn'?'font-bengali':''}`}>{P.subtitle}</p>
+
+                        {/* divider */}
+                        <div className="flex items-center justify-center gap-4 mb-10">
+                            <div className={`h-px w-16 ${isNight?'bg-white/20':'bg-black/20'}`} />
+                            <div className="w-2 h-2 rounded-full bg-vabuuk-saffron" />
+                            <div className={`h-px w-16 ${isNight?'bg-white/20':'bg-black/20'}`} />
+                        </div>
+
+                        {/* count */}
+                        <div className="inline-flex items-center gap-2 text-sm opacity-40 font-mono">
+                            <Icon name="users" size={14} />
+                            <span>{signCount.toLocaleString()} {lang==='en'?'minds signed':'মন স্বাক্ষরিত'}</span>
+                        </div>
+                    </Reveal>
+
+                    {/* scroll hint */}
+                    <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30">
+                        <span className="text-[9px] font-mono tracking-[0.3em] uppercase">{T.scroll_label}</span>
+                        <div className="animate-bounce"><Icon name="chevron-down" size={20} /></div>
+                    </div>
+                </header>
+
+                {/* ══ PREAMBLE ════════════════════════════════════════════════ */}
+                <section className="relative z-10 py-24 md:py-32 px-6">
+                    <div className="max-w-3xl mx-auto">
+                        <Reveal>
+                            <div className="flex items-center gap-4 mb-16">
+                                <div className={`h-px flex-1 ${isNight?'bg-white/10':'bg-black/10'}`} />
+                                <span className="text-[9px] font-mono tracking-[0.3em] uppercase text-vabuuk-saffron opacity-70">{P.label}</span>
+                                <div className={`h-px flex-1 ${isNight?'bg-white/10':'bg-black/10'}`} />
+                            </div>
+                        </Reveal>
+
+                        <Reveal delay={100}>
+                            <div className={`relative p-8 md:p-12 rounded-2xl ${isNight?'glass-panel':'light-glass'}`}>
+                                <div className="quote-marks absolute -top-4 -left-2 select-none pointer-events-none">"</div>
+                                <p className={`text-lg md:text-xl leading-relaxed drop-cap ${lang==='bn'?'font-bengali':'font-light'} ${isNight?'text-vabuuk-paper/85':'text-vabuuk-ink/85'}`}>
+                                    {P.body}
+                                </p>
+                                <InkLine />
+                                <blockquote className={`mt-8 pl-5 border-l-2 border-vabuuk-saffron/50 text-lg font-serif italic ${lang==='bn'?'font-bengali':''} ${isNight?'text-vabuuk-paper/70':'text-vabuuk-ink/70'}`}>
+                                    {P.pull}
+                                </blockquote>
+                            </div>
+                        </Reveal>
+
+                        {/* Trinity bars */}
+                        <Reveal delay={200}>
+                            <div className="mt-16 grid grid-cols-3 gap-4 md:gap-6 text-center">
+                                {[
+                                    {pct:'70%', label:lang==='en'?'The Architect':'স্থপতি', sub:lang==='en'?'Logic & Data':'যুক্তি ও তথ্য', color:'text-blue-400'},
+                                    {pct:'20%', label:lang==='en'?'The Boatman':'মাঝি',    sub:lang==='en'?'Faith & Flow':'বিশ্বাস ও প্রবাহ', color:'text-vabuuk-saffron'},
+                                    {pct:'10%', label:lang==='en'?'The Bridge':'সেতু',     sub:lang==='en'?'Synthesis':'সংশ্লেষণ', color:'text-emerald-400'},
+                                ].map((item,i) => (
+                                    <div key={i} className={`p-5 md:p-7 rounded-xl border transition-all duration-500 hover:-translate-y-1 ${isNight?'border-white/5 bg-white/[0.02] hover:border-vabuuk-saffron/20':'border-black/5 bg-black/[0.02] hover:border-vabuuk-saffron/30'}`}>
+                                        <div className={`text-2xl md:text-3xl font-serif font-bold mb-2 ${item.color}`}>{item.pct}</div>
+                                        <div className={`text-xs font-bold mb-1 ${lang==='bn'?'font-bengali':''} ${isNight?'text-white':'text-vabuuk-void'}`}>{item.label}</div>
+                                        <div className="text-[9px] font-mono opacity-40 tracking-widest uppercase">{item.sub}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        </Reveal>
+                    </div>
+                </section>
+
+                {/* ══ SIX TENETS ══════════════════════════════════════════════ */}
+                <section className={`relative z-10 py-24 md:py-32 ${isNight?'bg-vabuuk-void_deep/60':'bg-vabuuk-paper_dim/40'}`}>
+                    <div className="absolute inset-0 bg-grain opacity-20 mix-blend-overlay pointer-events-none" />
+                    <div className="max-w-6xl mx-auto px-6">
+                        <Reveal>
+                            <div className="text-center mb-20">
+                                <p className="text-[9px] font-mono tracking-[0.35em] text-vabuuk-saffron uppercase mb-4 opacity-70">{T.section_tenets}</p>
+                                <h2 className={`text-3xl md:text-5xl font-serif font-bold mb-4 ${lang==='bn'?'font-bengali':''} ${isNight?'text-white':'text-vabuuk-void'}`}>{T.section_tenets}</h2>
+                                <p className={`text-sm opacity-50 max-w-md mx-auto ${lang==='bn'?'font-bengali':''}`}>{T.section_tenets_sub}</p>
+                            </div>
+                        </Reveal>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                            {MD.tenets.map((tenet, i) => {
+                                const c   = CLR[tenet.color];
+                                const isX = expanded === tenet.id;
+                                const ct  = tenet[lang];
+                                return (
+                                    <Reveal key={tenet.id} delay={i*80}>
+                                        <div
+                                            className={`tenet-card group relative rounded-2xl border overflow-hidden cursor-pointer ${isNight?'glass-panel':'light-glass'} ${c.ring} ${isX?'active-tenet':isNight?'hover:border-white/15':'hover:border-black/15'}`}
+                                            onClick={() => setExpanded(isX?null:tenet.id)}
+                                        >
+                                            {/* Watermark numeral */}
+                                            <div className={`absolute top-3 right-4 font-serif text-5xl font-bold opacity-[0.04] select-none pointer-events-none ${isNight?'text-white':'text-vabuuk-void'}`}>{tenet.id}</div>
+
+                                            <div className="p-6 md:p-7">
+                                                <div className={`w-10 h-10 rounded-lg ${c.bg} ${c.text} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300`}>
+                                                    <Icon name={tenet.icon} size={18} />
+                                                </div>
+
+                                                <div className="flex items-start justify-between gap-2 mb-2">
+                                                    <div>
+                                                        <div className={`text-[9px] font-mono tracking-[0.25em] uppercase mb-1 ${c.text} opacity-70`}>Tenet {tenet.id}</div>
+                                                        <h3 className={`font-serif font-bold text-lg leading-tight ${lang==='bn'?'font-bengali':''} ${isNight?'text-white':'text-vabuuk-void'}`}>{ct.title}</h3>
+                                                    </div>
+                                                    <div className={`flex-shrink-0 mt-1 opacity-30 group-hover:opacity-70 transition-all duration-300 ${isX?'rotate-180':''}`}>
+                                                        <Icon name="chevron-down" size={16} />
+                                                    </div>
+                                                </div>
+
+                                                <p className={`text-[10px] font-mono tracking-wider uppercase mb-4 ${c.text} opacity-60`}>{ct.sub}</p>
+                                                <p className={`text-sm leading-relaxed ${lang==='bn'?'font-bengali':'font-light'} ${isNight?'opacity-70':'opacity-75'}`}>{ct.body}</p>
+
+                                                {/* Expandable */}
+                                                <div className={`overflow-hidden transition-all duration-500 ${isX?'max-h-96 mt-5':'max-h-0'}`}>
+                                                    <div className={`pt-5 border-t ${isNight?'border-white/5':'border-black/5'} space-y-4`}>
+                                                        <p className={`text-sm leading-relaxed ${lang==='bn'?'font-bengali':'font-light'} ${isNight?'opacity-60':'opacity-65'}`}>{ct.detail}</p>
+                                                        <blockquote className={`pl-3 border-l-2 ${c.ring} text-sm font-serif italic ${lang==='bn'?'font-bengali':''} ${isNight?'text-vabuuk-saffron/80':'text-vabuuk-saffron'}`}>"{ct.quote}"</blockquote>
+                                                    </div>
+                                                </div>
+
+                                                <div className={`mt-5 text-[9px] font-mono tracking-[0.2em] uppercase transition-colors duration-300 ${c.text} opacity-50 group-hover:opacity-80`}>
+                                                    {isX ? T.tenet_collapse : T.tenet_expand} →
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </Reveal>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </section>
+
+                {/* ══ DECLARATION ═════════════════════════════════════════════ */}
+                <section className="relative z-10 py-24 md:py-32 px-6">
+                    <div className="max-w-5xl mx-auto">
+                        <Reveal>
+                            <div className="text-center mb-20">
+                                <p className="text-[9px] font-mono tracking-[0.35em] text-vabuuk-saffron uppercase mb-4 opacity-70">{T.section_declaration}</p>
+                                <h2 className={`text-3xl md:text-5xl font-serif font-bold ${lang==='bn'?'font-bengali':''} ${isNight?'text-white':'text-vabuuk-void'}`}>{DC.title}</h2>
+                            </div>
+                        </Reveal>
+
+                        <div className="space-y-3 max-w-2xl mx-auto mb-20">
+                            {DC.items.map((item,i) => (
+                                <Reveal key={i} delay={i*70}>
+                                    <div className={`flex items-start gap-5 p-5 rounded-xl border transition-all duration-500 hover:-translate-x-1 group ${isNight?'border-white/5 hover:border-vabuuk-saffron/20 bg-white/[0.01]':'border-black/5 hover:border-vabuuk-saffron/20 bg-black/[0.01]'}`}>
+                                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-vabuuk-saffron/10 text-vabuuk-saffron flex items-center justify-center text-xs font-serif font-bold group-hover:bg-vabuuk-saffron group-hover:text-white transition-all duration-300">
+                                            {i+1}
+                                        </div>
+                                        <p className={`text-base leading-relaxed pt-0.5 ${lang==='bn'?'font-bengali':'font-light'} ${isNight?'opacity-80':'opacity-75'}`}>{item}</p>
+                                    </div>
+                                </Reveal>
+                            ))}
+                        </div>
+
+                        <Reveal>
+                            <div className="text-center">
+                                <InkLine />
+                                <p className={`mt-8 text-sm font-serif italic opacity-50 ${lang==='bn'?'font-bengali':''}`}>{DC.closing}</p>
+                                <p className="mt-2 text-xs font-mono opacity-30 tracking-widest">{T.sign_off}</p>
+                            </div>
+                        </Reveal>
+                    </div>
+                </section>
+
+                {/* ══ SIGN ════════════════════════════════════════════════════ */}
+                <section className="relative z-10 py-24 overflow-hidden">
+                    <div className="absolute inset-0 bg-vabuuk-saffron" />
+                    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10" />
+                    <div className="absolute inset-0 bg-grain opacity-20 mix-blend-overlay" />
+
+                    <div className="relative z-10 max-w-2xl mx-auto px-6 text-center text-white">
+                        <Reveal>
+                            <div className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-8">
+                                <Icon name="feather" size={24} />
+                            </div>
+                            <h2 className={`text-3xl md:text-5xl font-serif font-bold mb-4 ${lang==='bn'?'font-bengali':''}`}>
+                                {lang==='en'?'Sign the Manifesto':'ইশতেহারে স্বাক্ষর করুন'}
+                            </h2>
+                            <p className={`text-lg opacity-80 mb-10 font-light ${lang==='bn'?'font-bengali':''}`}>
+                                {lang==='en'?'Add your name to the intellectual record. No email. No spam. Just intention.':'বৌদ্ধিক রেকর্ডে আপনার নাম যোগ করুন। কোনো ইমেইল নেই। শুধু অভিপ্রায়।'}
+                            </p>
+
+                            {signed ? (
+                                <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+                                    <Icon name="check-circle" size={40} className="text-white mx-auto mb-4" />
+                                    <p className={`text-xl font-serif font-bold mb-2 ${lang==='bn'?'font-bengali':''}`}>
+                                        {lang==='en'?'You are now part of the record.':'আপনি এখন রেকর্ডের অংশ।'}
+                                    </p>
+                                    <p className="text-sm opacity-70 font-mono">{signCount.toLocaleString()} {lang==='en'?'minds and counting.':'মন এবং গণনা চলছে।'}</p>
+                                </div>
+                            ) : (
+                                <div className="flex gap-3 max-w-md mx-auto">
+                                    <input
+                                        type="text" value={signName} onChange={e=>setSignName(e.target.value)}
+                                        onKeyDown={e=>e.key==='Enter'&&handleSign()}
+                                        placeholder={lang==='en'?'Your name or alias...':'আপনার নাম বা ছদ্মনাম...'}
+                                        className={`flex-1 px-5 py-3 rounded-xl bg-white/20 border border-white/30 text-white placeholder-white/50 outline-none focus:bg-white/30 focus:border-white/60 transition font-light ${lang==='bn'?'font-bengali':''}`}
+                                    />
+                                    <button onClick={handleSign} className="px-6 py-3 bg-white text-vabuuk-saffron font-bold rounded-xl hover:bg-white/90 active:scale-95 transition-all duration-200 flex items-center gap-2 whitespace-nowrap">
+                                        <Icon name="pen-line" size={16} />{lang==='en'?'Sign':'স্বাক্ষর'}
+                                    </button>
+                                </div>
+                            )}
+
+                            <div className="mt-8 flex justify-center gap-6 opacity-60 text-sm">
+                                <span className="font-mono">{signCount.toLocaleString()} {lang==='en'?'signed':'স্বাক্ষরিত'}</span>
+                                <span>·</span>
+                                <button onClick={handleShare} className="flex items-center gap-1.5 hover:opacity-100 transition">
+                                    <Icon name="share-2" size={13} />
+                                    {lang==='en'?'Share this Manifesto':'ইশতেহার শেয়ার করুন'}
+                                </button>
+                            </div>
+                        </Reveal>
+                    </div>
+                </section>
+
+                {/* ══ CTA CARDS ═══════════════════════════════════════════════ */}
+                <section className="relative z-10 py-24 px-6">
+                    <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <Reveal delay={0}>
+                            <a href="/academy" className={`group block p-8 md:p-10 rounded-2xl border transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl ${isNight?'glass-panel glass-panel-hover':'light-glass light-glass-hover'}`}>
+                                <div className="w-12 h-12 rounded-xl bg-vabuuk-saffron/10 text-vabuuk-saffron flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-vabuuk-saffron group-hover:text-white transition-all duration-300">
+                                    <Icon name="graduation-cap" size={22} />
+                                </div>
+                                <div className="text-[9px] font-mono tracking-[0.2em] text-vabuuk-saffron uppercase mb-2 opacity-70">Next Step</div>
+                                <h3 className={`text-2xl font-serif font-bold mb-3 group-hover:text-vabuuk-saffron transition-colors ${lang==='bn'?'font-bengali':''} ${isNight?'text-white':'text-vabuuk-void'}`}>{T.cta_academy}</h3>
+                                <p className={`text-sm leading-relaxed mb-6 ${isNight?'opacity-60':'opacity-65'} ${lang==='bn'?'font-bengali':'font-light'}`}>
+                                    {lang==='en'?'A 4-week curriculum to reclaim your mind from the attention economy.':'মনোযোগ অর্থনীতি থেকে আপনার মন পুনরুদ্ধারের ৪-সপ্তাহের পাঠ্যক্রম।'}
+                                </p>
+                                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-vabuuk-saffron group-hover:gap-4 transition-all duration-300">
+                                    <span>{lang==='en'?'Enter Academy':'একাডেমি খুলুন'}</span><Icon name="arrow-right" size={14} />
+                                </div>
+                            </a>
+                        </Reveal>
+                        <Reveal delay={120}>
+                            <a href="/library" className={`group block p-8 md:p-10 rounded-2xl border transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl ${isNight?'glass-panel glass-panel-hover':'light-glass light-glass-hover'}`}>
+                                <div className="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-blue-500 group-hover:text-white transition-all duration-300">
+                                    <Icon name="book-open" size={22} />
+                                </div>
+                                <div className="text-[9px] font-mono tracking-[0.2em] text-blue-400 uppercase mb-2 opacity-70">Explore</div>
+                                <h3 className={`text-2xl font-serif font-bold mb-3 group-hover:text-blue-400 transition-colors ${lang==='bn'?'font-bengali':''} ${isNight?'text-white':'text-vabuuk-void'}`}>{T.cta_library}</h3>
+                                <p className={`text-sm leading-relaxed mb-6 ${isNight?'opacity-60':'opacity-65'} ${lang==='bn'?'font-bengali':'font-light'}`}>
+                                    {lang==='en'?'Curated books, essays, and visual philosophy for the seeking mind.':'সন্ধানী মনের জন্য কিউরেটেড বই, প্রবন্ধ এবং ভিজ্যুয়াল দর্শন।'}
+                                </p>
+                                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-blue-400 group-hover:gap-4 transition-all duration-300">
+                                    <span>{lang==='en'?'Open Library':'লাইব্রেরি খুলুন'}</span><Icon name="arrow-right" size={14} />
+                                </div>
+                            </a>
+                        </Reveal>
+                    </div>
+                </section>
+
+                {/* ══ FOOTER ══════════════════════════════════════════════════ */}
+                <footer className={`mt-8 border-t py-12 text-center relative z-10 ${isNight?'border-white/5':'border-black/5'}`}>
+                    <Reveal>
+                        <a href="/" className="inline-block group">
+                            <div className="w-10 h-10 bg-vabuuk-saffron mx-auto rounded-full flex items-center justify-center text-white font-serif font-bold text-xl mb-5 shadow-[0_0_15px_rgba(217,119,6,0.3)] group-hover:rotate-45 transition-transform duration-500">V</div>
+                        </a>
+                        <p className={`text-lg font-serif italic opacity-60 mb-6 max-w-md mx-auto leading-relaxed ${lang==='bn'?'font-bengali':''}`}>
+                            "{lang==='en'?T.footer_motto:'ভাবনায় যুক্তি, বিশ্বাসে মুক্তি।'}"
+                        </p>
+                        <div className="flex justify-center gap-5 opacity-30 mb-6">
+                            {['youtube','facebook','instagram'].map(s => (
+                                <span key={s} className="hover:text-vabuuk-saffron hover:opacity-100 cursor-pointer transition">
+                                    <Icon name={s} size={18} />
+                                </span>
+                            ))}
+                        </div>
+                        <p className="text-[9px] font-mono uppercase tracking-[0.3em] opacity-20">&copy; 2026 VABUUK Nexus. Dhaka, Bangladesh.</p>
+                    </Reveal>
+                </footer>
+
+                {/* Share toast */}
+                {toast && (
+                    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
+                        <div className={`px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 border backdrop-blur-xl animate-slide-up ${isNight?'bg-vabuuk-void/90 border-white/10 text-white':'bg-white/95 border-black/5 text-vabuuk-void'}`}>
+                            <Icon name="check" size={15} className="text-green-400" />
+                            <span className="text-sm font-medium">{lang==='en'?'Link copied to clipboard':'লিংক কপি হয়েছে'}</span>
+                        </div>
+                    </div>
+                )}
+
+                {/* WhatsApp FAB */}
+                <a href="https://wa.me/8801700000000" target="_blank" rel="noopener noreferrer"
+                    className="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform duration-300 group">
+                    <Icon name="message-circle" size={26} />
+                    <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-black text-white text-xs px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 whitespace-nowrap transition-all duration-300 shadow-xl">
+                        {lang==='en'?'Chat with Architect':'স্থপতির সাথে কথা বলুন'}
+                    </span>
+                </a>
+
+            </div>
+        );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+</script>
+</body>
+</html>
